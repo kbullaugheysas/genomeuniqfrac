@@ -154,6 +154,10 @@ func main() {
 	}
 	for i := 0; i+args.K <= len(sequence); i++ {
 		outputKmer(i, sequence[i:(i+args.K)], zw)
+		// TODO: I think it's unnecessary to output the index of the reverse
+		// complement sequence at this offset because that could be found by
+		// looking up the index of the reverse complement of a kmer when using
+		// the index.
 		outputKmer(-i, sequenceRC[i:(i+args.K)], zw)
 	}
 	if zw != nil {
