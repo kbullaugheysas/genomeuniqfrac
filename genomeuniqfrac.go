@@ -123,14 +123,20 @@ func main() {
 		}
 		kmerCounts[idx] += 1
 		// Reverse complement
-		kmer = sequenceRC[i:(i + args.K)]
-		idx, found = kmerToIndex[kmer]
+		kmerRC := sequenceRC[i:(i + args.K)]
+		idx, found = kmerToIndex[kmerRC]
 		if !found {
 			idx = len(kmerToIndex)
-			kmerToIndex[kmer] = idx
+			kmerToIndex[kmerRC] = idx
 			kmerCounts = append(kmerCounts, 0)
 		}
-		kmerCounts[idx] += 1
+		// Sequences that are their own reverse complement would get a count of
+		// two, even if that sequence only happens one place in the genome. Of
+		// course the orientation is ambiguous, but at least the location is
+		// distinct. In this case we don't double count.
+		if kmer != kmerRC {
+			kmerCounts[idx] += 1
+		}
 	}
 
 	log.Println("finding unique kmers")
