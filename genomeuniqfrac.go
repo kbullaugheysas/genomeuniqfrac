@@ -67,7 +67,7 @@ func complement(r rune) rune {
 	if r == 'c' {
 		return 'g'
 	}
-	log.Fatalf("Invalid base '%s'", r)
+	log.Fatalf("Invalid base '%c'", r)
 	return r
 }
 
